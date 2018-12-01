@@ -51104,8 +51104,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         addTodo: function addTodo() {
-            console.log(this.type);
-            console.log(this.action);
+            this.$store.dispatch('addTodo', { action: this.action, type: this.type });
         }
     }
 });
@@ -51242,7 +51241,21 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
             state.plays = payload.play;
             state.specials = payload.special;
         },
-        addTodos: function addTodos(state, payload) {},
+        addTodo: function addTodo(state, payload) {
+            var type = payload.group_id;
+            var todo = {
+                action: payload.action,
+                done: payload.done
+            };
+            var group_map = {
+                1: 'works',
+                2: 'lidfes',
+                3: 'plays',
+                4: 'specials'
+            };
+
+            state[group_map[type]].push(todo);
+        },
         changeStatus: function changeStatus(state, payload) {
             if (payload.type === 1) {
                 state.works[payload.index].done = payload.done;
@@ -51257,8 +51270,15 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
                 commit('getTodoList', response.data);
             });
         },
-        changeStatus: function changeStatus(_ref2, payload) {
+        addTodo: function addTodo(_ref2, payload) {
             var commit = _ref2.commit;
+
+            axios.post("http://localhost/api/todoes", payload).then(function (response) {
+                commit('addTodo', response.data);
+            });
+        },
+        changeStatus: function changeStatus(_ref3, payload) {
+            var commit = _ref3.commit;
 
             commit('changeStatus', payload);
         }

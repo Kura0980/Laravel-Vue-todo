@@ -31,8 +31,20 @@ export default new Vuex.Store({
             state.plays = payload.play;
             state.specials = payload.special;
         },
-        addTodos (state, payload) {
+        addTodo (state, payload) {
+            const type = payload.group_id;
+            const todo = {
+                action: payload.action,
+                done: payload.done 
+            };
+            const group_map = {
+                1: 'works',
+                2: 'lidfes',
+                3: 'plays',
+                4: 'specials'
+            }
 
+            state[group_map[type]].push(todo);
         },
         changeStatus (state, payload) {
             if(payload.type === 1) {
@@ -45,6 +57,12 @@ export default new Vuex.Store({
             axios.get("http://localhost/api/todoes")
                 .then(response => {
                     commit('getTodoList', response.data);
+                });
+        },
+        addTodo ({commit}, payload) {
+            axios.post("http://localhost/api/todoes", payload)
+                .then(response => {
+                    commit('addTodo', response.data);
                 });
         },
         changeStatus ({commit}, payload) {

@@ -19,8 +19,7 @@ export default {
     },
     methods: {
         addTodo() {
-            console.log(this.type);   
-            console.log(this.action);
+            this.$store.dispatch('addTodo', {action: this.action, type: this.type});
         }
     }
 }
