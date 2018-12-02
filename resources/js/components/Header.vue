@@ -4,7 +4,6 @@
         <div class="navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <router-link class="nav-item nav-link" to="/">Home</router-link>
-                <router-link class="nav-item nav-link" to="/list">やること</router-link>
             </div>
         </div>
     </nav>

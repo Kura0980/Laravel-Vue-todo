@@ -12,11 +12,17 @@ import axios from 'axios';
 import App from './App.vue';
 import Home from './components/Home.vue';
 import Work from './components/Works.vue';
+import Life from './components/Lifes.vue';
+import Play from './components/Plays.vue';
+import special from './components/Specials.vue';
 import store from './store';
 
 const routes = [
-    { path: '/', component: Home},
-    { path: '/work', component: Work}
+    { path: '/', component: Home },
+    { path: '/work', component: Work },
+    { path: '/life', component: Life },
+    { path: '/play', component: Play},
+    { path: '/special', component: special }
 ];
 
 Vue.use(VueRouter);

@@ -1,8 +1,8 @@
 <template>
-    <div class="add-todo input-group mb-3">
+    <div class="add-todo input-group">
       <input type="text" class="form-control" placeholder="やることを追加しよう!" v-model="action">
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" @click="addTodo">追加</button>
+        <button class="btn btn-secondary" type="button" @click="addTodo">追加</button>
       </div>
     </div>
 </template>
@@ -20,6 +20,7 @@ export default {
     methods: {
         addTodo() {
             this.$store.dispatch('addTodo', {action: this.action, type: this.type});
+            this.action = '';
         }
     }
 }
@@ -29,5 +30,7 @@ export default {
     .add-todo {
         position: fixed;
         bottom: 0;
+        z-index: 10;
+        margin-bottom: 0px;
     }
 </style>

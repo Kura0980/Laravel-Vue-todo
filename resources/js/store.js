@@ -3,6 +3,13 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+const group_map = {
+    1: 'works',
+    2: 'lifes',
+    3: 'plays',
+    4: 'specials'
+}
+
 export default new Vuex.Store({
     state: {
         works:[],
@@ -34,23 +41,24 @@ export default new Vuex.Store({
         addTodo (state, payload) {
             const type = payload.group_id;
             const todo = {
+                id: payload.id,
                 action: payload.action,
                 done: payload.done 
             };
-            const group_map = {
-                1: 'works',
-                2: 'lidfes',
-                3: 'plays',
-                4: 'specials'
-            }
-
             state[group_map[type]].push(todo);
         },
         changeStatus (state, payload) {
-            if(payload.type === 1) {
-                state.works[payload.index].done = payload.done;
-            }
+            const type = payload.type;
+            const done = payload.done;
+            const index = payload.index;
+            state[group_map[type]][index].done = done;
         },
+        deleteTodo (state, payload) {
+            const type = payload.type;
+            const id = payload.id
+            const todoes = state[group_map[type]];
+            state[group_map[type]] = todoes.filter(todo => todo.id != id);
+        }
     },
     actions: {
         getTodoList ({commit}) {
@@ -66,7 +74,21 @@ export default new Vuex.Store({
                 });
         },
         changeStatus ({commit}, payload) {
-            commit('changeStatus',payload);
+            axios.put("http://localhost/api/todoes/"+payload.id, {done: payload.done})
+                .then(response => {
+                    const param = {
+                        type: payload.type,
+                        done: payload.done,
+                        index: payload.index
+                    }
+                    commit('changeStatus', param);
+                });
+        },
+        deleteTodo ({commit}, payload) {
+            axios.delete("http://localhost/api/todoes/"+payload.id)
+                .then(response => {
+                    commit('deleteTodo', {id: payload.id, type: payload.type});
+                });
         }
     }
 });

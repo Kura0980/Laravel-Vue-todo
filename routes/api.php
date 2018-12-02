@@ -19,3 +19,5 @@ use Illuminate\Http\Request;
 
 Route::get('/todoes', 'TodoesController@index');
 Route::post('/todoes', 'TodoesController@store');
+Route::put('/todoes/{id}', 'TodoesController@changeStatus');
+Route::delete('/todoes/{id}', 'TodoesController@destroy');
